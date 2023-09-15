@@ -8,10 +8,22 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
-    "vue": "^3.2.13"
+    "rut.js": "^2.1.0",
+    "sweetalert2": "^11.7.27",
+    "vue": "^3.2.13",
+    "vue-barcode-reader": "^1.0.2",
+    "vue-barcode-scanner": "^0.8.1",
+    "vue-router": "^4.0.15",
+    "vue3-barcode-scanner": "^1.0.4",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
+    "@soda/friendly-errors-webpack-plugin": "^1.8.1",
     "@vue/cli-plugin-babel": "~5.0.0",
-    "@vue/cli-service": "~5.0.0"
+    "@vue/cli-service": "~5.0.0",
+    "error-stack-parser": "2.0.6"
+  },
+  "resolutions": {
+    "error-stack-parser": "2.0.6"
   }
 }
