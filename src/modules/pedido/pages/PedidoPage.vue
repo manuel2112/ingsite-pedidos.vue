@@ -88,8 +88,7 @@
                     data-bs-toggle="modal"
                     data-bs-target="#mdlProducto"
                     @click="mdlReset()"
-                    v-html=" btnAgregarProducto.txt "
-                    :disabled=" btnAgregarProducto.disabled ">
+                    v-html=" btnAgregarProducto.txt ">
                 </button>
             </div>
         </div>
@@ -266,8 +265,8 @@
                                                     :key=" art.articulos_id "
                                                     @click=" art.articulos_stock > 0 ? selectArticulo(art) : null">
                                                     {{ art.articulos_descripcion }}<br>
-                                                    <small>PRECIO {{ formatDinero(art.articulos_venta) }}</small><br>
-                                                    <small>STOCK {{ art.articulos_stock }} UN.</small>
+                                                    <small :class=" art.articulos_stock > 0 ? 'text-primary' : 'text-danger'">PRECIO {{ formatDinero(art.articulos_venta) }}</small><br>
+                                                    <small :class=" art.articulos_stock > 0 ? 'text-primary' : 'text-danger'">STOCK {{ art.articulos_stock }} UN.</small>
                                                 </li>
                                             </ul>
                                         </div>
@@ -298,8 +297,8 @@
                                                     v-for=" art in articulosPorFamiliaTemp " :key=" art.articulos_id "
                                                     @click="selectArticulo(art)">
                                                     {{ art.articulos_descripcion }}<br>
-                                                    <small>PRECIO {{ formatDinero(art.articulos_venta) }}</small><br>
-                                                    <small>STOCK {{ art.articulos_stock }} UN.</small>
+                                                    <small :class=" art.articulos_stock > 0 ? 'text-primary' : 'text-danger'">PRECIO {{ formatDinero(art.articulos_venta) }}</small><br>
+                                                    <small :class=" art.articulos_stock > 0 ? 'text-primary' : 'text-danger'">STOCK {{ art.articulos_stock }} UN.</small>
                                                 </li>
                                             </ul>
                                         </div>
@@ -763,6 +762,7 @@ export default {
             this.clienteTxt             = value.CLIENTE.razon;
             this.clienteInputDisabled   = true;
             this.isVisibleClientes      = false;
+            this.btnAgregarProducto.disabled = false;
             this.$store.commit('st/setCliente', {clienteId: value.CLIENTE.clientes_id, clienteNmb: value.CLIENTE.razon });
         },
         validarNoFrecuente(){
@@ -947,10 +947,17 @@ export default {
                             break;
                         case 2:
                             self.pedido         = [];
-                            self.pedidoTotal    = ''
-                            self.cliente        = '';
+                            self.pedidoTotal    = '';
+                            if( self.getTipoCliente != 'nuevo-cliente' ){
+                                self.cliente = '';
+                                self.limpiarCliente();
+                            }
+                            if( self.getTipoCliente == 'cliente-no-frecuente' ){
+                                console.log('pasa...');
+                                self.btnAgregarProducto.disabled = true;
+                            }
+                            
                             Swal.fire( 'PEDIDO ELIMINADO', 'PEDIDO ELIMINADO CON ÉXITO', 'success');
-                            self.limpiarCliente();
                             self.instanciar();
                             break;
                         case 3:
@@ -1035,7 +1042,7 @@ export default {
 	align-content: center;    
 }
 .box-list .list-group small{
-    color: red;
+    /* color: red; */
 }
 .box-list .list-group .list-group-item{
     background-color:gainsboro;
